@@ -1,8 +1,4 @@
 # ADI Series Volume Controller
- 
-<p align="center">
-  <img src="dist_icons/branding_tile.png" alt="ADI Series Volume Controller icon" width="160">
-</p>
 
 Controls the output volume(s) of an RME ADI-2 DAC / ADI-2 Pro / ADI-2/4 Pro SE
 from any device that can send keystrokes — a USB volume wheel, a Microsoft
