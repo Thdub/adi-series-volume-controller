@@ -65,8 +65,11 @@ second, independent controller (split mode).
 ## Two ways to use this
 
 - **Compiled release** (no Python involved). Download the zipped
-  `ADI Series Volume Controller` folder from the GitHub Releases page and run the
-  .exe directly. Broadlink support is already included in the executable.
+  `ADI Series Volume Controller` folder from the GitHub Releases page and
+  extract it as-is. The .exe, its `_internal` support folder, `sendmidi.exe`,
+  `receivemidi.exe` and `tray.ico` are already together inside — Broadlink
+  support is built into the executable too. Run the .exe from inside that
+  folder; do not move it out on its own.
 - **From source.** Clone the repository and run `rme_app.py` with Python
   directly, or build an executable (see "Building from source" below). This
   path requires `pip install broadlink` only if Broadlink support is
@@ -75,10 +78,10 @@ second, independent controller (split mode).
 ## Requirements
 
 - Windows.
-- [sendmidi / receivemidi](https://github.com/gbevin/SendMIDI) (same author,
-  two separate releases) — `sendmidi.exe` and `receivemidi.exe`, placed next
-  to the app (or pointed to by full path in `config.ini`). Needed either
-  way, compiled release or from source.
+- [sendmidi](https://github.com/gbevin/SendMIDI) /
+  [receivemidi](https://github.com/gbevin/ReceiveMIDI) by Geert Bevin,
+  GPL-3.0 — `sendmidi.exe` and `receivemidi.exe`, placed next to the app
+  (or pointed to by full path in `config.ini`).
 - An RME ADI-2 DAC, ADI-2 Pro, or ADI-2/4 Pro SE, connected and visible as a
   MIDI port (`sendmidi.exe list` to find its exact name).
 - Optional: a Broadlink IR hub, only if the LCD "VOL Push" realignment is
@@ -87,11 +90,10 @@ second, independent controller (split mode).
 
 ## Quick start
 
-1. Download the compiled release (or build it, see below) and place
-   `sendmidi.exe` / `receivemidi.exe` next to `ADI Series Volume Controller.exe`
-   (`tray.ico` too, for the custom tray icon — optional, falls back to the
-   default Windows icon otherwise).
-2. Run it. `config.ini` is created automatically on first launch.
+1. Compiled release: extract the downloaded folder and keep it intact (see
+   "Two ways to use this" above). Building from source: see "Building from
+   source" below first.
+2. Run the .exe. `config.ini` is created automatically on first launch.
 3. With no hotkeys set, the **Set Hotkeys** wizard opens automatically —
    press the key/wheel action/remote button for each prompt. Left, right
    and click are required; the extended actions can be skipped if the
@@ -140,15 +142,19 @@ build.bat
 `dist_icons/app.ico` as the executable's icon, and pulls in `broadlink` +
 `cryptography` (broadlink's crypto dependency, and the one PyInstaller most
 often fails to auto-detect) with `collect_all` rather than relying on static
-import analysis alone. `build.bat` then copies `sendmidi.exe`,
-`receivemidi.exe` and `dist_icons/tray.ico` into the result. Output:
-`dist\ADI Series Volume Controller\`, ready to copy anywhere as-is.
+import analysis alone.
+`build.bat` expects `sendmidi.exe`, `receivemidi.exe`, `dist_icons/tray.ico`
+and `dist_icons/app.ico` next to it, and stops with an error if one is
+missing. `build.bat` then copies `sendmidi.exe`,
+`receivemidi.exe` and `dist_icons/tray.ico` into the result.
+Output: `dist\ADI Series Volume Controller\`, ready to copy
+anywhere as-is.
 
 ## Dev / support tools
 
-A few small tools were built along the way and ship in this repo's `tools/`
-folder as a bonus, even though the app itself does not need them at
-runtime:
+A couple of small tools were built along the way and ship in this repo's
+`tools/` folder as a bonus, even though the app itself does not need them
+at runtime:
 
 - **`ADI_Series_Volume_Controller.ahk`** (AutoHotkey v2) — the original
   implementation this app is based on, kept as a lightweight alternative.
@@ -164,7 +170,6 @@ runtime:
   mute indices) was derived and cross-checked.
 - **`generate_broadlink_ir.py`** — turns an RME NEC IR command byte into the
   raw Broadlink hex payload, from RME's published IR command documentation.
-  The standalone, maintained version of this lives at
   [github.com/Thdub/generate_rme_broadlink_ir](https://github.com/Thdub/generate_rme_broadlink_ir).
 
 ## Protocol credit
